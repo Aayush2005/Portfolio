@@ -32,7 +32,7 @@ function CyclingTypewriter({
 
   useEffect(() => {
     const currentText = texts[currentTextIndex];
-    
+
     if (!loop && hasCalledComplete.current) {
       // If loop is disabled and we've already completed, show full text
       setDisplayText(currentText);
@@ -207,7 +207,7 @@ export default function Hero() {
                 <button
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                   className="group relative bg-burntOrange text-cream font-sans text-base hover:bg-gold transition-all duration-300 ease-out overflow-hidden transform hover:scale-105 hover:shadow-xl rounded-lg"
-                  style={{padding: '8px 20px'}}
+                  style={{ padding: '8px 20px' }}
                 >
                   <span className="relative z-10">Get In Touch</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-gold to-burntOrange transform translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out rounded-lg"></div>

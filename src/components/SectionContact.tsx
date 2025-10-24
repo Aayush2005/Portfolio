@@ -120,7 +120,7 @@ export default function SectionContact() {
             style={{ marginBottom: '2rem' }}
           >
             <motion.a
-              href="mailto:hello@aryenvale.dev"
+              href="mailto:aayushkr646@gmail.com"
               className="group relative bg-burntOrange text-cream font-medium text-lg rounded-2xl hover:bg-tangerine transition-all duration-300 transform hover:scale-105 hover:shadow-xl overflow-hidden flex items-center justify-center"
               style={{ padding: '12px 28px' }}
               whileHover={{ scale: 1.05 }}
@@ -151,7 +151,7 @@ export default function SectionContact() {
               subtextColor={subtextColor}
               cardBg={cardBg}
               title="Email"
-              description="aayush@animal.dev - Ready to discuss your next project and bring ideas to life."
+              description="aayushkr646@gmail.com - Ready to discuss your next project and bring ideas to life."
             />
 
             <BulgingCard
@@ -160,7 +160,7 @@ export default function SectionContact() {
               subtextColor={subtextColor}
               cardBg={cardBg}
               title="Location"
-              description="Available exclusively in dev's DM - Remote collaboration worldwide with flexible timezone coverage."
+              description="Remote collaboration worldwide with flexible timezone coverage."
             />
 
             <BulgingCard
