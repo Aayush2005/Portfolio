@@ -151,7 +151,7 @@ export default function SectionContact() {
               subtextColor={subtextColor}
               cardBg={cardBg}
               title="Email"
-              description="harshithaaa@animal.dev - Ready to discuss your next project and bring ideas to life."
+              description="aayush@animal.dev - Ready to discuss your next project and bring ideas to life."
             />
 
             <BulgingCard

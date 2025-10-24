@@ -1,11 +1,12 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 
 export default function SectionFeatured() {
   const [globalScrollProgress, setGlobalScrollProgress] = useState(0);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -31,7 +32,10 @@ export default function SectionFeatured() {
       year: '2024',
       summary: 'Generative visuals for interactive data storytelling with WebGL.',
       description: 'A comprehensive platform for exploring fractal mathematics through interactive visualizations. Built with cutting-edge WebGL shaders and real-time rendering that brings mathematical beauty to life.',
-      tech: ['WebGL', 'Three.js', 'React', 'GLSL', 'TypeScript']
+      tech: ['WebGL', 'Three.js', 'React', 'GLSL', 'TypeScript'],
+      image: '/placeholders/fractal-atlas.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '🌀'
     },
     {
       id: 'f2',
@@ -39,7 +43,10 @@ export default function SectionFeatured() {
       year: '2024',
       summary: 'A micro-interaction library for high-performance UI motion.',
       description: 'A comprehensive animation library designed for modern web applications. Features over 100 pre-built components with customizable motion patterns that enhance user experience.',
-      tech: ['Framer Motion', 'TypeScript', 'Storybook', 'CSS', 'React']
+      tech: ['Framer Motion', 'TypeScript', 'Storybook', 'CSS', 'React'],
+      image: '/placeholders/pulse-ui.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '⚡'
     },
     {
       id: 'f3',
@@ -47,7 +54,10 @@ export default function SectionFeatured() {
       year: '2023',
       summary: 'AR-assisted product previews with custom refraction shaders.',
       description: 'An augmented reality platform that allows customers to visualize products in their real environment before purchasing. Features advanced lighting and material simulation.',
-      tech: ['AR.js', 'WebXR', 'GLSL', 'Machine Learning', 'JavaScript']
+      tech: ['AR.js', 'WebXR', 'GLSL', 'Machine Learning', 'JavaScript'],
+      image: '/placeholders/lens-commerce.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '👁️'
     },
     {
       id: 'f4',
@@ -55,7 +65,10 @@ export default function SectionFeatured() {
       year: '2024',
       summary: 'AI-powered creative tools for digital artists.',
       description: 'A suite of AI-powered tools that assist digital artists in creating stunning artwork. Features neural style transfer, intelligent color palettes, and composition suggestions.',
-      tech: ['TensorFlow.js', 'Canvas API', 'Python', 'React', 'WebGL']
+      tech: ['TensorFlow.js', 'Canvas API', 'Python', 'React', 'WebGL'],
+      image: '/placeholders/neural-canvas.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '🎨'
     },
     {
       id: 'f5',
@@ -63,7 +76,10 @@ export default function SectionFeatured() {
       year: '2023',
       summary: 'Interactive quantum computing visualization platform.',
       description: 'An educational platform that visualizes quantum computing concepts through interactive simulations. Helps students and researchers understand complex quantum phenomena.',
-      tech: ['D3.js', 'WebAssembly', 'Rust', 'Physics Engine', 'TypeScript']
+      tech: ['D3.js', 'WebAssembly', 'Rust', 'Physics Engine', 'TypeScript'],
+      image: '/placeholders/quantum-simulator.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '⚛️'
     },
   ];
 
@@ -153,7 +169,7 @@ export default function SectionFeatured() {
     >
       {/* Smooth gradient transition from Hero section */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-transparent pointer-events-none z-20"></div>
-      
+
       {/* Dynamic background */}
       <div
         className="absolute inset-0 transition-all duration-1000"
@@ -168,7 +184,7 @@ export default function SectionFeatured() {
           )`
         }}
       ></div>
-      
+
       {/* Smooth gradient transition to About section */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-transparent to-transparent pointer-events-none z-20"></div>
 
@@ -216,127 +232,32 @@ export default function SectionFeatured() {
                       filter: `blur(${transforms.motionBlur}px)`,
                     }}
                   >
+                    {/* Logo outside the card - aligned with card top */}
                     <motion.div
-                      className="relative w-full h-full rounded-2xl lg:rounded-3xl shadow-2xl bg-orange-50/95 backdrop-blur-sm border border-orange-100/50 overflow-hidden cursor-pointer"
-                      style={{ padding: '15px' }}
-                      whileHover={{
+                      className="absolute -left-22 -top-7 z-20"
+                      animate={hoveredProject === project.id ? {
                         scale: 1.02,
                         rotateY: 5,
-                        transition: { type: "spring", stiffness: 400, damping: 25 }
+                      } : {
+                        scale: 1,
+                        rotateY: 0,
                       }}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     >
-                      {/* Ocean depth gradient overlay with genie shimmer */}
-                      <motion.div
-                        className="absolute inset-0 rounded-2xl lg:rounded-3xl opacity-50 transition-all duration-1000"
-                        style={{
-                          background: `linear-gradient(135deg, 
-                            rgba(20, 51, 58, 0.1), 
-                            rgba(30, 80, 100, 0.2), 
-                            rgba(40, 120, 150, 0.3)
-                          )`
-                        }}
-                        animate={{
-                          background: [
-                            `linear-gradient(135deg, rgba(20, 51, 58, 0.1), rgba(30, 80, 100, 0.2), rgba(40, 120, 150, 0.3))`,
-                            `linear-gradient(135deg, rgba(40, 120, 150, 0.2), rgba(20, 51, 58, 0.1), rgba(30, 80, 100, 0.3))`,
-                            `linear-gradient(135deg, rgba(20, 51, 58, 0.1), rgba(30, 80, 100, 0.2), rgba(40, 120, 150, 0.3))`
-                          ]
-                        }}
-                        transition={{
-                          duration: 4,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      />
-
-                      <div className="relative z-10 h-full p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col">
-                        <div className="flex-1 flex flex-col md:flex-row gap-6 lg:gap-8 min-h-0">
-                          {/* Left side - Main content */}
-                          <div className="flex-1 flex flex-col justify-between min-h-0 min-w-0">
-                            <div className="space-y-4 lg:space-y-6">
-                              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-4">
-                                <h3 className="font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight text-gray-900 break-words">
-                                  {project.title}
-                                </h3>
-                                <span className="text-teal-700 font-medium text-sm sm:text-base bg-orange-100/80 px-3 py-1 rounded-full backdrop-blur-sm self-start shrink-0">
-                                  {project.year}
-                                </span>
-                              </div>
-
-                              <p className="text-teal-700 text-sm sm:text-base md:text-lg leading-relaxed">
-                                {project.summary}
-                              </p>
-
-                              <div className="flex flex-wrap gap-2">
-                                {project.tech.slice(0, 4).map((tech, techIndex) => (
-                                  <span
-                                    key={techIndex}
-                                    className="px-3 py-1 bg-orange-100/80 text-teal-700 text-xs sm:text-sm rounded-full border border-orange-100 backdrop-blur-sm"
-                                  >
-                                    {tech}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-
-                            <button className="text-gray-900 font-medium hover:text-orange-600 transition-colors duration-300 flex items-center gap-2 group self-start bg-orange-100/80 px-4 py-2 rounded-lg backdrop-blur-sm border border-orange-100 mt-4 lg:mt-6">
-                              View Project
-                              <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-                            </button>
-                          </div>
-
-                          {/* Right side - Project visual */}
-                          <div className="w-full md:w-40 lg:w-56 flex items-center justify-center shrink-0">
-                            <div className="w-full h-24 sm:h-32 md:h-40 lg:h-48 bg-orange-100/80 rounded-xl border border-orange-100 flex items-center justify-center backdrop-blur-sm">
-                              <span className="text-teal-700 text-3xl sm:text-4xl md:text-5xl font-bold">
-                                {index + 1}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Genie sparkle effects */}
-                      <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl lg:rounded-3xl">
-                        {[...Array(8)].map((_, sparkleIndex) => (
-                          <motion.div
-                            key={sparkleIndex}
-                            className="absolute w-1 h-1 bg-white/40 rounded-full"
-                            style={{
-                              left: `${10 + (sparkleIndex * 10)}%`,
-                              top: `${20 + (sparkleIndex * 8)}%`,
-                            }}
-                            animate={{
-                              scale: [0, 1, 0],
-                              opacity: [0, 1, 0],
-                              rotate: [0, 180, 360],
-                            }}
-                            transition={{
-                              duration: 2 + (sparkleIndex * 0.3),
-                              repeat: Infinity,
-                              delay: sparkleIndex * 0.2,
-                              ease: "easeInOut"
-                            }}
-                          />
-                        ))}
-
-                        {/* Genie emergence trail effect */}
-                        <motion.div
-                          className="absolute bottom-0 left-1/2 w-2 h-20 bg-gradient-to-t from-white/20 to-transparent rounded-full"
-                          style={{ x: "-50%" }}
-                          animate={{
-                            scaleY: [0, 1, 0],
-                            opacity: [0, 0.6, 0],
-                          }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        />
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#F9C7BD]/90 rounded-full border-2 border-[#F7B3A5]/80 flex items-center justify-center backdrop-blur-sm shadow-lg">
+                        <span className="text-2xl sm:text-3xl text-[#213740]">
+                          {project.icon}
+                        </span>
                       </div>
                     </motion.div>
+
+                    <FeaturedCard
+                      project={project}
+                      isHovered={hoveredProject === project.id}
+                      onHoverStart={() => setHoveredProject(project.id)}
+                      onHoverEnd={() => setHoveredProject(null)}
+                    />
+
                   </motion.div>
                 );
               })}
@@ -344,7 +265,7 @@ export default function SectionFeatured() {
           </div>
 
           {/* Project Progress Indicator */}
-          <div className="text-center mt-12 lg:mt-16" style={{marginTop : '1.5rem'}}>
+          <div className="text-center mt-12 lg:mt-16" style={{ marginTop: '1.5rem' }}>
             <div className="flex justify-center gap-4 mb-8">
               {items.map((_, index) => (
                 <div
@@ -356,12 +277,6 @@ export default function SectionFeatured() {
                 />
               ))}
             </div>
-            {/* <p className={`${subtextColor} text-base lg:text-lg mb-4 transition-colors duration-1000 delay-500`}>
-              Project {currentProjectIndex + 1} of {items.length}
-            </p> */}
-            {/* <p className={`${subtextColor} text-sm transition-colors duration-1000 delay-700 mb-6`}>
-              Scroll to see projects emerge with genie effect
-            </p> */}
             <div className={`w-8 h-12 border-2 ${globalScrollProgress > 0.2 ? 'border-white/60' : 'border-gray-900/60'} rounded-full flex justify-center mx-auto mt-6 transition-colors duration-1000 delay-300`}>
               <div className={`w-1.5 h-4 ${globalScrollProgress > 0.2 ? 'bg-white/60' : 'bg-gray-900/60'} rounded-full mt-2 animate-pulse transition-colors duration-1000 delay-500`}></div>
             </div>
@@ -381,5 +296,224 @@ export default function SectionFeatured() {
         }
       `}</style>
     </section>
+  );
+}
+
+interface FeaturedCardProps {
+  project: {
+    id: string;
+    title: string;
+    year: string;
+    summary: string;
+    description: string;
+    tech: string[];
+    image: string;
+    secondaryImage: string;
+    icon: string;
+  };
+  isHovered: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
+}
+
+function FeaturedCard({ project, isHovered, onHoverStart, onHoverEnd }: FeaturedCardProps) {
+
+  return (
+    <motion.div
+      className="relative w-full h-full rounded-2xl lg:rounded-3xl shadow-[0_10px_30px_rgba(40,120,150,0.15)] bg-[#F7F3E8]/95 backdrop-blur-sm border border-[#F0EBE0]/70 overflow-hidden cursor-pointer"
+      style={{
+        padding: '15px',
+        perspective: "1000px",
+      }}
+      onHoverStart={onHoverStart}
+      onHoverEnd={onHoverEnd}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    >
+
+
+      {/* Initial state - Project name and bouncing text */}
+      <AnimatePresence>
+        {!isHovered && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="relative z-10 h-full flex flex-col items-center justify-center text-center"
+          >
+            <h3 className="font-bold text-3xl md:text-4xl lg:text-5xl leading-tight text-[#213740] mb-8">
+              {project.title}
+            </h3>
+            <motion.p
+              className="text-[#3C6E71] text-lg md:text-xl font-medium"
+              animate={{
+                y: [0, -10, 0],
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              Hover over me ✨
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hover state - Full card content with bulge effect */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-[#F7F3E8]/98 via-[#F0EBE0]/95 to-[#E8DCC6]/90 backdrop-blur-md z-30"
+            style={{
+              boxShadow: '0 20px 60px rgba(40, 120, 150, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              padding : '10px'
+            }}
+          >
+
+
+            {/* Ocean depth gradient overlay with genie shimmer */}
+            <motion.div
+              className="absolute inset-0 rounded-2xl lg:rounded-3xl opacity-50 transition-all duration-1000"
+              style={{
+                background: `linear-gradient(135deg, 
+                  rgba(40, 120, 150, 0.1), 
+                  rgba(60, 100, 120, 0.2), 
+                  rgba(80, 140, 170, 0.3)
+                )`
+              }}
+              animate={{
+                background: [
+                  `linear-gradient(135deg, rgba(40, 120, 150, 0.1), rgba(60, 100, 120, 0.2), rgba(80, 140, 170, 0.3))`,
+                  `linear-gradient(135deg, rgba(80, 140, 170, 0.2), rgba(40, 120, 150, 0.1), rgba(60, 100, 120, 0.3))`,
+                  `linear-gradient(135deg, rgba(40, 120, 150, 0.1), rgba(60, 100, 120, 0.2), rgba(80, 140, 170, 0.3))`
+                ]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+
+            <motion.div
+              className="relative z-50 h-full p-6 sm:p-8 md:p-10 lg:p-12 flex"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
+            >
+              {/* Content area starting from left */}
+              <div className="flex-1 flex flex-col justify-between min-h-0 min-w-0 pr-8">
+                <div className="space-y-4">
+                  {/* Project title and year */}
+                  <div className="flex justify-between items-start gap-4">
+                    <h3 className="font-bold text-2xl md:text-3xl lg:text-4xl leading-tight text-[#213740] break-words">
+                      {project.title}
+                    </h3>
+                    <span className="text-[#3C6E71] font-medium text-sm bg-[#F0EBE0]/80 px-3 py-1 rounded-full backdrop-blur-sm shrink-0 border border-[#F0EBE0]/90">
+                      {project.year}
+                    </span>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-[#3C6E71] text-base md:text-lg leading-relaxed">
+                    {project.summary}
+                  </p>
+
+                  {/* Tech tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.slice(0, 4).map((tech, techIndex) => (
+                      <span
+                        key={techIndex}
+                        className="px-3 py-1 bg-[#F0EBE0]/80 text-[#3C6E71] text-sm rounded-full border border-[#F0EBE0] backdrop-blur-sm"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Main project image in lower left */}
+                <div className="mt-8 w-96 h-56">
+                  <div className="w-full h-full bg-[#F0EBE0]/80 rounded-xl border border-[#F0EBE0] overflow-hidden backdrop-blur-sm">
+                    <img
+                      src={project.secondaryImage}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                {/* View Project button at bottom */}
+                <button className="text-[#213740] font-medium hover:text-[#F9C7BD] transition-colors duration-300 flex items-center gap-2 group self-start bg-[#F0EBE0]/80 px-4 py-2 rounded-lg backdrop-blur-sm border border-[#F0EBE0] mt-6 hover:bg-[#F9C7BD]/20 hover:border-[#F9C7BD]/40">
+                  View Project
+                  <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                </button>
+              </div>
+
+              {/* Secondary image stuck to right edge center */}
+              <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-44 h-36 mr-6">
+                <div className="w-full h-full bg-[#F0EBE0]/80 rounded-xl border border-[#F0EBE0] overflow-hidden flex items-center justify-center backdrop-blur-sm">
+                  <img
+                    src={project.image}
+                    alt="Secondary Icon"
+                    className="w-full h-full object-cover p-2"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Genie sparkle effects */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl lg:rounded-3xl">
+              {[...Array(8)].map((_, sparkleIndex) => (
+                <motion.div
+                  key={sparkleIndex}
+                  className="absolute w-1 h-1 bg-white/40 rounded-full"
+                  style={{
+                    left: `${10 + (sparkleIndex * 10)}%`,
+                    top: `${20 + (sparkleIndex * 8)}%`,
+                  }}
+                  animate={{
+                    scale: [0, 1, 0],
+                    opacity: [0, 1, 0],
+                    rotate: [0, 180, 360],
+                  }}
+                  transition={{
+                    duration: 2 + (sparkleIndex * 0.3),
+                    repeat: Infinity,
+                    delay: sparkleIndex * 0.2,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+
+              {/* Genie emergence trail effect */}
+              <motion.div
+                className="absolute bottom-0 left-1/2 w-2 h-20 bg-gradient-to-t from-white/20 to-transparent rounded-full"
+                style={{ x: "-50%" }}
+                animate={{
+                  scaleY: [0, 1, 0],
+                  opacity: [0, 0.6, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+
+    </motion.div>
   );
 }

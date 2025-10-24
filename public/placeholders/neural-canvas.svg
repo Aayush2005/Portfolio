@@ -1,0 +1,11 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#F2E8CF"/>
+  <rect x="50" y="50" width="300" height="200" rx="8" fill="none" stroke="#E76F51" stroke-width="2"/>
+  <circle cx="120" cy="120" r="15" fill="#C9A24A"/>
+  <circle cx="200" cy="100" r="12" fill="#153D3A"/>
+  <circle cx="280" cy="140" r="18" fill="#E76F51"/>
+  <circle cx="160" cy="180" r="10" fill="#C9A24A"/>
+  <circle cx="240" cy="200" r="14" fill="#153D3A"/>
+  <path d="M120 120 L200 100 L280 140 L160 180 L240 200" stroke="#1F2328" stroke-width="1" fill="none" opacity="0.5"/>
+  <text x="200" y="280" text-anchor="middle" fill="#1F2328" font-family="system-ui" font-size="14">Neural Canvas</text>
+</svg>

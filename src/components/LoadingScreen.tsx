@@ -115,7 +115,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
                 transition={{ duration: 0.8, delay: 1 }}
                 className="font-display text-charcoal text-4xl md:text-5xl mb-4"
               >
-                Harshitha
+                Aayush
               </motion.h1>
 
               <motion.p

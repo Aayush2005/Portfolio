@@ -81,7 +81,7 @@ export default function Hero() {
         >
           {showTypewriter && (
             <TypewriterText
-              text="I am just a Gurllll"
+              text="I am just a Human"
               delay={0}
               speed={30}
               onComplete={handleTypewriterComplete}

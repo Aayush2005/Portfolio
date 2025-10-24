@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Harshithaa | Animal",
+  title: "Aayush | Human",
   description: "Engineering light through code. Creating experiences that blur the line between digital and physical reality.",
   keywords: ["creative technologist", "webgl", "react three fiber", "portfolio", "interactive design"],
   authors: [{ name: "G.O.A.T me" }],
