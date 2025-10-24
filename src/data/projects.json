@@ -1,0 +1,101 @@
+{
+  "projects": [
+    {
+      "id": "p1",
+      "title": "Fractal Atlas",
+      "summary": "Generative visuals for interactive data storytelling with WebGL.",
+      "description": "A comprehensive data visualization platform that transforms complex datasets into immersive, interactive experiences using procedural generation and real-time WebGL rendering.",
+      "tags": ["WebGL", "R3F", "Shaders", "Data Visualization"],
+      "thumbnail": "/placeholders/fractal-atlas.svg",
+      "featured": true,
+      "year": "2024",
+      "role": "Lead Developer & Visual Designer",
+      "technologies": ["React Three Fiber", "GLSL", "D3.js", "WebGL2"],
+      "links": {
+        "live": "https://fractal-atlas.demo",
+        "github": "https://github.com/aryan/fractal-atlas"
+      }
+    },
+    {
+      "id": "p2",
+      "title": "Pulse UI Kit",
+      "summary": "A micro-interaction library for high-performance UI motion.",
+      "description": "A comprehensive design system and animation library focused on creating fluid, performant micro-interactions that enhance user experience without compromising performance.",
+      "tags": ["Design Systems", "Animation", "React", "TypeScript"],
+      "thumbnail": "/placeholders/pulse-ui.svg",
+      "featured": true,
+      "year": "2024",
+      "role": "Creator & Maintainer",
+      "technologies": ["React", "Framer Motion", "TypeScript", "Storybook"],
+      "links": {
+        "live": "https://pulse-ui.design",
+        "github": "https://github.com/aryan/pulse-ui",
+        "npm": "https://npmjs.com/package/pulse-ui-kit"
+      }
+    },
+    {
+      "id": "p3",
+      "title": "Lens Commerce",
+      "summary": "AR-assisted product previews with custom refraction shaders.",
+      "description": "An innovative e-commerce platform that uses augmented reality and advanced shader techniques to provide realistic product previews, revolutionizing online shopping experiences.",
+      "tags": ["AR", "eCommerce", "WebXR", "Shaders"],
+      "thumbnail": "/placeholders/lens-commerce.svg",
+      "featured": true,
+      "year": "2023",
+      "role": "Technical Lead",
+      "technologies": ["WebXR", "Three.js", "React", "Node.js"],
+      "links": {
+        "live": "https://lens-commerce.app",
+        "case-study": "/case-studies/lens-commerce"
+      }
+    },
+    {
+      "id": "p4",
+      "title": "GridWorks Portfolio",
+      "summary": "Experimental portfolio layout engine driven by noise fields.",
+      "description": "A dynamic portfolio system that uses mathematical noise functions to create ever-changing, organic layouts while maintaining perfect readability and user experience.",
+      "tags": ["UX", "Generative Design", "WebGL", "Creative Coding"],
+      "thumbnail": "/placeholders/gridworks.jpg",
+      "featured": false,
+      "year": "2023",
+      "role": "Designer & Developer",
+      "technologies": ["Next.js", "WebGL", "GLSL", "Perlin Noise"],
+      "links": {
+        "live": "https://gridworks.portfolio",
+        "github": "https://github.com/aryan/gridworks"
+      }
+    },
+    {
+      "id": "p5",
+      "title": "Soundflow Visualizer",
+      "summary": "Audio-reactive visuals that translate frequency into geometry.",
+      "description": "A real-time audio visualization system that transforms sound waves into dynamic geometric patterns, creating synesthetic experiences through mathematical beauty.",
+      "tags": ["AudioVis", "DSP", "WebGL", "Creative Coding"],
+      "thumbnail": "/placeholders/soundflow.jpg",
+      "featured": false,
+      "year": "2023",
+      "role": "Creative Technologist",
+      "technologies": ["Web Audio API", "Three.js", "GLSL", "FFT Analysis"],
+      "links": {
+        "live": "https://soundflow.visual",
+        "github": "https://github.com/aryan/soundflow"
+      }
+    },
+    {
+      "id": "p6",
+      "title": "Velvet Map",
+      "summary": "Luxury-grade UI concept for premium mapping experiences.",
+      "description": "A sophisticated mapping interface that combines premium aesthetics with advanced functionality, designed for high-end real estate and luxury travel applications.",
+      "tags": ["Mapping", "UI", "Luxury Design", "Interactive"],
+      "thumbnail": "/placeholders/velvet-map.jpg",
+      "featured": false,
+      "year": "2022",
+      "role": "UI/UX Designer",
+      "technologies": ["Mapbox GL", "React", "Framer Motion", "WebGL"],
+      "links": {
+        "live": "https://velvet-map.luxury",
+        "case-study": "/case-studies/velvet-map"
+      }
+    }
+  ]
+}

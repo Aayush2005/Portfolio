@@ -1,0 +1,385 @@
+'use client';
+
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
+
+export default function SectionFeatured() {
+  const [globalScrollProgress, setGlobalScrollProgress] = useState(0);
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || 0;
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
+      setGlobalScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const items = [
+    {
+      id: 'f1',
+      title: 'Fractal Atlas',
+      year: '2024',
+      summary: 'Generative visuals for interactive data storytelling with WebGL.',
+      description: 'A comprehensive platform for exploring fractal mathematics through interactive visualizations. Built with cutting-edge WebGL shaders and real-time rendering that brings mathematical beauty to life.',
+      tech: ['WebGL', 'Three.js', 'React', 'GLSL', 'TypeScript']
+    },
+    {
+      id: 'f2',
+      title: 'Pulse UI Kit',
+      year: '2024',
+      summary: 'A micro-interaction library for high-performance UI motion.',
+      description: 'A comprehensive animation library designed for modern web applications. Features over 100 pre-built components with customizable motion patterns that enhance user experience.',
+      tech: ['Framer Motion', 'TypeScript', 'Storybook', 'CSS', 'React']
+    },
+    {
+      id: 'f3',
+      title: 'Lens Commerce',
+      year: '2023',
+      summary: 'AR-assisted product previews with custom refraction shaders.',
+      description: 'An augmented reality platform that allows customers to visualize products in their real environment before purchasing. Features advanced lighting and material simulation.',
+      tech: ['AR.js', 'WebXR', 'GLSL', 'Machine Learning', 'JavaScript']
+    },
+    {
+      id: 'f4',
+      title: 'Neural Canvas',
+      year: '2024',
+      summary: 'AI-powered creative tools for digital artists.',
+      description: 'A suite of AI-powered tools that assist digital artists in creating stunning artwork. Features neural style transfer, intelligent color palettes, and composition suggestions.',
+      tech: ['TensorFlow.js', 'Canvas API', 'Python', 'React', 'WebGL']
+    },
+    {
+      id: 'f5',
+      title: 'Quantum Simulator',
+      year: '2023',
+      summary: 'Interactive quantum computing visualization platform.',
+      description: 'An educational platform that visualizes quantum computing concepts through interactive simulations. Helps students and researchers understand complex quantum phenomena.',
+      tech: ['D3.js', 'WebAssembly', 'Rust', 'Physics Engine', 'TypeScript']
+    },
+  ];
+
+  // Calculate project switching based on scroll progress
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on('change', (latest) => {
+      if (latest < 0.1) {
+        setCurrentProjectIndex(0);
+        return;
+      }
+
+      const adjustedProgress = (latest - 0.1) / 0.8;
+      const projectProgress = adjustedProgress * items.length;
+      const newProjectIndex = Math.floor(projectProgress);
+      const clampedIndex = Math.min(newProjectIndex, items.length - 1);
+
+      setCurrentProjectIndex(clampedIndex);
+    });
+
+    return () => unsubscribe();
+  }, [scrollYProgress, items.length]);
+
+
+
+  const textColor = globalScrollProgress > 0.2 ? 'text-white' : 'text-gray-900';
+  const subtextColor = globalScrollProgress > 0.2 ? 'text-white/90' : 'text-gray-700';
+
+  // Pre-calculate transforms for all projects
+  const projectTransforms = items.map((_, projectIndex) => {
+    const projectStart = 0.1 + (projectIndex * 0.18);
+    const entranceEnd = projectStart + 0.05;
+    const stickStart = entranceEnd;
+    const stickEnd = projectStart + 0.12;
+    const projectEnd = stickEnd + 0.03;
+
+    const y = useTransform(
+      scrollYProgress,
+      [projectStart, entranceEnd, stickStart, stickEnd, projectEnd],
+      [400, 0, 0, 0, -400]
+    );
+
+    const scaleX = useTransform(
+      scrollYProgress,
+      [projectStart, projectStart + 0.01, entranceEnd, stickStart, stickEnd, projectEnd],
+      [0, 0.4, 1.05, 1, 1, 0]
+    );
+
+    const scaleY = useTransform(
+      scrollYProgress,
+      [projectStart, projectStart + 0.01, entranceEnd, stickStart, stickEnd, projectEnd],
+      [0, 0.6, 0.98, 1, 1, 0]
+    );
+
+    const opacity = useTransform(
+      scrollYProgress,
+      [projectStart, entranceEnd, stickStart, stickEnd, projectEnd],
+      [0, 1, 1, 1, 0]
+    );
+
+    const skewX = useTransform(
+      scrollYProgress,
+      [projectStart, projectStart + 0.015, entranceEnd, stickStart, stickEnd, projectEnd - 0.01, projectEnd],
+      [0, -3, 1, 0, 0, -2, 0]
+    );
+
+    const rotateZ = useTransform(
+      scrollYProgress,
+      [projectStart, entranceEnd, stickStart, stickEnd, projectEnd],
+      [1, 0, 0, 0, -3]
+    );
+
+    const motionBlur = useTransform(
+      scrollYProgress,
+      [projectStart, entranceEnd, stickStart, stickEnd, projectEnd],
+      [6, 0, 0, 0, 8]
+    );
+
+    return { y, scaleX, scaleY, opacity, skewX, rotateZ, motionBlur };
+  });
+
+  return (
+    <section
+      id="featured"
+      ref={containerRef}
+      className="relative w-full py-20"
+      style={{ height: '800vh' }}
+    >
+      {/* Smooth gradient transition from Hero section */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-transparent pointer-events-none z-20"></div>
+      
+      {/* Dynamic background */}
+      <div
+        className="absolute inset-0 transition-all duration-1000"
+        style={{
+          background: `linear-gradient(to bottom, 
+            transparent,
+            rgba(${Math.round(20 + (100 * globalScrollProgress))}, ${Math.round(51 + (80 * globalScrollProgress))}, ${Math.round(58 + (120 * globalScrollProgress))}, ${0.08 + (0.15 * globalScrollProgress)}),
+            rgba(${Math.round(20 + (100 * globalScrollProgress))}, ${Math.round(51 + (80 * globalScrollProgress))}, ${Math.round(58 + (120 * globalScrollProgress))}, ${0.15 + (0.25 * globalScrollProgress)}),
+            rgba(${Math.round(20 + (100 * globalScrollProgress))}, ${Math.round(51 + (80 * globalScrollProgress))}, ${Math.round(58 + (120 * globalScrollProgress))}, ${0.20 + (0.35 * globalScrollProgress)}),
+            rgba(${Math.round(20 + (100 * globalScrollProgress))}, ${Math.round(51 + (80 * globalScrollProgress))}, ${Math.round(58 + (120 * globalScrollProgress))}, ${0.15 + (0.25 * globalScrollProgress)}),
+            transparent
+          )`
+        }}
+      ></div>
+      
+      {/* Smooth gradient transition to About section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-transparent to-transparent pointer-events-none z-20"></div>
+
+      <div className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
+          {/* Header */}
+          <div className="text-center mb-16 lg:mb-20">
+            <motion.h2
+              className={`font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl ${textColor} mb-8 lg:mb-12 leading-tight transition-colors duration-1000 delay-300`}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              Featured Work
+            </motion.h2>
+            <motion.p
+              className={`${subtextColor} text-lg sm:text-xl md:text-2xl mx-auto leading-relaxed font-light transition-colors duration-1000 delay-500 px-8 text-center`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              Selected work focused on craft, clarity, and meaningful interaction.
+            </motion.p>
+          </div>
+
+          {/* Ocean Emergence Cards */}
+          <div className="flex justify-center items-center perspective-1000">
+            <div className="relative w-full max-w-4xl" style={{ height: '500px' }}>
+              {items.map((project, index) => {
+                const transforms = projectTransforms[index];
+
+                return (
+                  <motion.div
+                    key={project.id}
+                    className="absolute inset-0 w-full h-full"
+                    style={{
+                      y: transforms.y,
+                      scaleX: transforms.scaleX,
+                      scaleY: transforms.scaleY,
+                      opacity: transforms.opacity,
+                      skewX: transforms.skewX,
+                      rotateZ: transforms.rotateZ,
+                      transformOrigin: "50% 100%", // Single point at bottom center
+                      filter: `blur(${transforms.motionBlur}px)`,
+                    }}
+                  >
+                    <motion.div
+                      className="relative w-full h-full rounded-2xl lg:rounded-3xl shadow-2xl bg-orange-50/95 backdrop-blur-sm border border-orange-100/50 overflow-hidden cursor-pointer"
+                      style={{ padding: '15px' }}
+                      whileHover={{
+                        scale: 1.02,
+                        rotateY: 5,
+                        transition: { type: "spring", stiffness: 400, damping: 25 }
+                      }}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    >
+                      {/* Ocean depth gradient overlay with genie shimmer */}
+                      <motion.div
+                        className="absolute inset-0 rounded-2xl lg:rounded-3xl opacity-50 transition-all duration-1000"
+                        style={{
+                          background: `linear-gradient(135deg, 
+                            rgba(20, 51, 58, 0.1), 
+                            rgba(30, 80, 100, 0.2), 
+                            rgba(40, 120, 150, 0.3)
+                          )`
+                        }}
+                        animate={{
+                          background: [
+                            `linear-gradient(135deg, rgba(20, 51, 58, 0.1), rgba(30, 80, 100, 0.2), rgba(40, 120, 150, 0.3))`,
+                            `linear-gradient(135deg, rgba(40, 120, 150, 0.2), rgba(20, 51, 58, 0.1), rgba(30, 80, 100, 0.3))`,
+                            `linear-gradient(135deg, rgba(20, 51, 58, 0.1), rgba(30, 80, 100, 0.2), rgba(40, 120, 150, 0.3))`
+                          ]
+                        }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      />
+
+                      <div className="relative z-10 h-full p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col">
+                        <div className="flex-1 flex flex-col md:flex-row gap-6 lg:gap-8 min-h-0">
+                          {/* Left side - Main content */}
+                          <div className="flex-1 flex flex-col justify-between min-h-0 min-w-0">
+                            <div className="space-y-4 lg:space-y-6">
+                              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-4">
+                                <h3 className="font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight text-gray-900 break-words">
+                                  {project.title}
+                                </h3>
+                                <span className="text-teal-700 font-medium text-sm sm:text-base bg-orange-100/80 px-3 py-1 rounded-full backdrop-blur-sm self-start shrink-0">
+                                  {project.year}
+                                </span>
+                              </div>
+
+                              <p className="text-teal-700 text-sm sm:text-base md:text-lg leading-relaxed">
+                                {project.summary}
+                              </p>
+
+                              <div className="flex flex-wrap gap-2">
+                                {project.tech.slice(0, 4).map((tech, techIndex) => (
+                                  <span
+                                    key={techIndex}
+                                    className="px-3 py-1 bg-orange-100/80 text-teal-700 text-xs sm:text-sm rounded-full border border-orange-100 backdrop-blur-sm"
+                                  >
+                                    {tech}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+
+                            <button className="text-gray-900 font-medium hover:text-orange-600 transition-colors duration-300 flex items-center gap-2 group self-start bg-orange-100/80 px-4 py-2 rounded-lg backdrop-blur-sm border border-orange-100 mt-4 lg:mt-6">
+                              View Project
+                              <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                            </button>
+                          </div>
+
+                          {/* Right side - Project visual */}
+                          <div className="w-full md:w-40 lg:w-56 flex items-center justify-center shrink-0">
+                            <div className="w-full h-24 sm:h-32 md:h-40 lg:h-48 bg-orange-100/80 rounded-xl border border-orange-100 flex items-center justify-center backdrop-blur-sm">
+                              <span className="text-teal-700 text-3xl sm:text-4xl md:text-5xl font-bold">
+                                {index + 1}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Genie sparkle effects */}
+                      <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl lg:rounded-3xl">
+                        {[...Array(8)].map((_, sparkleIndex) => (
+                          <motion.div
+                            key={sparkleIndex}
+                            className="absolute w-1 h-1 bg-white/40 rounded-full"
+                            style={{
+                              left: `${10 + (sparkleIndex * 10)}%`,
+                              top: `${20 + (sparkleIndex * 8)}%`,
+                            }}
+                            animate={{
+                              scale: [0, 1, 0],
+                              opacity: [0, 1, 0],
+                              rotate: [0, 180, 360],
+                            }}
+                            transition={{
+                              duration: 2 + (sparkleIndex * 0.3),
+                              repeat: Infinity,
+                              delay: sparkleIndex * 0.2,
+                              ease: "easeInOut"
+                            }}
+                          />
+                        ))}
+
+                        {/* Genie emergence trail effect */}
+                        <motion.div
+                          className="absolute bottom-0 left-1/2 w-2 h-20 bg-gradient-to-t from-white/20 to-transparent rounded-full"
+                          style={{ x: "-50%" }}
+                          animate={{
+                            scaleY: [0, 1, 0],
+                            opacity: [0, 0.6, 0],
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          }}
+                        />
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Project Progress Indicator */}
+          <div className="text-center mt-12 lg:mt-16" style={{marginTop : '1.5rem'}}>
+            <div className="flex justify-center gap-4 mb-8">
+              {items.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-4 h-4 rounded-full transition-all duration-1000 delay-300 ${index === currentProjectIndex
+                    ? (globalScrollProgress > 0.2 ? 'bg-white' : 'bg-gray-900')
+                    : (globalScrollProgress > 0.2 ? 'bg-white/30' : 'bg-gray-900/30')
+                    }`}
+                />
+              ))}
+            </div>
+            {/* <p className={`${subtextColor} text-base lg:text-lg mb-4 transition-colors duration-1000 delay-500`}>
+              Project {currentProjectIndex + 1} of {items.length}
+            </p> */}
+            {/* <p className={`${subtextColor} text-sm transition-colors duration-1000 delay-700 mb-6`}>
+              Scroll to see projects emerge with genie effect
+            </p> */}
+            <div className={`w-8 h-12 border-2 ${globalScrollProgress > 0.2 ? 'border-white/60' : 'border-gray-900/60'} rounded-full flex justify-center mx-auto mt-6 transition-colors duration-1000 delay-300`}>
+              <div className={`w-1.5 h-4 ${globalScrollProgress > 0.2 ? 'bg-white/60' : 'bg-gray-900/60'} rounded-full mt-2 animate-pulse transition-colors duration-1000 delay-500`}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        .preserve-3d {
+          transform-style: preserve-3d;
+        }
+        .backface-hidden {
+          backface-visibility: hidden;
+        }
+      `}</style>
+    </section>
+  );
+}

@@ -1,0 +1,7 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#F2E8CF"/>
+  <ellipse cx="200" cy="150" rx="100" ry="60" fill="none" stroke="#E76F51" stroke-width="3"/>
+  <ellipse cx="200" cy="150" rx="60" ry="36" fill="none" stroke="#C9A24A" stroke-width="2"/>
+  <circle cx="200" cy="150" r="15" fill="#153D3A"/>
+  <text x="200" y="250" text-anchor="middle" fill="#1F2328" font-family="system-ui" font-size="14">Lens Commerce</text>
+</svg>
