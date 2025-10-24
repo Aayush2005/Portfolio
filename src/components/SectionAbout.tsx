@@ -224,10 +224,7 @@ function BulgingCard({ delay, textColor, cardBg, title, description }: BulgingCa
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="relative z-10"
-            style={{
-              transform: `translate3d(${(mousePosition.x - centerX) * 0.08}px, ${(mousePosition.y - centerY) * 0.08}px, ${40 * bulgeIntensity}px)`,
-            }}
+            className="relative z-10 text-center"
           >
             <h3 className={`font-display text-4xl lg:text-5xl ${textColor} transition-all duration-300`}>
               {title}
@@ -289,22 +286,24 @@ function BulgingCard({ delay, textColor, cardBg, title, description }: BulgingCa
               }}
             />
 
-            <motion.div
+            <motion.p
               initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              animate={{ 
+                y: 0, 
+                opacity: 1,
+                x: (mousePosition.x - centerX) * 0.08,
+                z: 50 * bulgeIntensity
+              }}
               exit={{ y: 20, opacity: 0 }}
-              transition={{ delay: 0.1, duration: 0.3 }}
-              className="text-center relative z-35"
+              transition={{ delay: 0.1, duration: 0.3, x: { duration: 0.15 }, z: { duration: 0.15 } }}
+              className="text-white/95 text-lg lg:text-xl leading-relaxed text-center relative z-50"
               style={{
-                transform: `translate3d(${(mousePosition.x - centerX) * 0.08}px, ${(mousePosition.y - centerY) * 0.08}px, ${50 * bulgeIntensity}px)`,
+                transform: `translateY(${(mousePosition.y - centerY) * 0.08}px)`,
                 textShadow: `0 0 ${20 * bulgeIntensity}px rgba(255, 255, 255, 0.5)`,
               }}
             >
-              {/* Only show description, no title */}
-              <p className="text-white/95 text-lg lg:text-xl leading-relaxed">
-                {description}
-              </p>
-            </motion.div>
+              {description}
+            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
