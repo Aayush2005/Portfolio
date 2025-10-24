@@ -288,17 +288,22 @@ function BulgingCard({ delay, textColor, cardBg, title, description }: BulgingCa
 
             <motion.p
               initial={{ y: 20, opacity: 0 }}
-              animate={{ 
-                y: 0, 
+              animate={{
+                y: (mousePosition.y - centerY) * 0.08,
                 opacity: 1,
                 x: (mousePosition.x - centerX) * 0.08,
                 z: 50 * bulgeIntensity
               }}
               exit={{ y: 20, opacity: 0 }}
-              transition={{ delay: 0.1, duration: 0.3, x: { duration: 0.15 }, z: { duration: 0.15 } }}
+              transition={{
+                delay: 0.1,
+                duration: 0.3,
+                x: { duration: 0.15 },
+                y: { duration: 0.15 },
+                z: { duration: 0.15 }
+              }}
               className="text-white/95 text-lg lg:text-xl leading-relaxed text-center relative z-50"
               style={{
-                transform: `translateY(${(mousePosition.y - centerY) * 0.08}px)`,
                 textShadow: `0 0 ${20 * bulgeIntensity}px rgba(255, 255, 255, 0.5)`,
               }}
             >

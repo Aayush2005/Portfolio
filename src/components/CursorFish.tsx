@@ -66,7 +66,7 @@ function Fish({ delay = 0, size = 'medium', color = 'blue', followSpeed = 0.05 }
 
   return (
     <motion.div
-      className="fixed pointer-events-none z-[9997]"
+      className="fixed pointer-events-none z-[99999]"
       style={{
         left: fishPos.x,
         top: fishPos.y,

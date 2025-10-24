@@ -18,9 +18,9 @@ interface OceanRippleProps {
   global?: boolean;
 }
 
-function OceanRipple({ 
-  children, 
-  className = '', 
+function OceanRipple({
+  children,
+  className = '',
   intensity = 'medium',
   global = false
 }: OceanRippleProps) {
@@ -43,7 +43,7 @@ function OceanRipple({
     lastRippleTime.current = now;
 
     let x: number, y: number;
-    
+
     if (global && globalX !== undefined && globalY !== undefined) {
       // Global mode: use screen coordinates
       x = globalX;
@@ -57,7 +57,7 @@ function OceanRipple({
     } else {
       return; // Invalid event type
     }
-    
+
     // Create multiple concentric ripples for ocean effect
     for (let i = 0; i < settings.rippleCount; i++) {
       const newRipple: Ripple = {
@@ -103,23 +103,23 @@ function OceanRipple({
   if (global) {
     // Global mode: render as fixed overlay
     return (
-      <div className="fixed inset-0 pointer-events-none z-40">
+      <div className="fixed inset-0 pointer-events-none z-[99998]">
         <AnimatePresence>
           {ripples.map((ripple) => {
             // Calculate scroll progress for dynamic colors
             const scrollY = window.scrollY || 0;
             const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
             const scrollProgress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
-            
+
             // Transition from warm colors to blue colors based on scroll
             const r1 = Math.max(25, Math.min(231, 231 - scrollProgress * 206));
             const g1 = Math.max(25, Math.min(111, 111 - scrollProgress * 86));
             const b1 = Math.max(112, Math.min(255, 81 + scrollProgress * 174));
-            
+
             const r2 = Math.max(0, Math.min(201, 201 - scrollProgress * 201));
             const g2 = Math.max(0, Math.min(162, 162 - scrollProgress * 162));
             const b2 = Math.max(80, Math.min(255, 74 + scrollProgress * 181));
-            
+
             return (
               <div key={ripple.id}>
                 {/* Main ocean ripple */}
@@ -161,7 +161,7 @@ function OceanRipple({
                     ease: [0.25, 0.46, 0.45, 0.94],
                   }}
                 />
-                
+
                 {/* Secondary wave ring */}
                 <motion.div
                   className="absolute pointer-events-none rounded-full"
@@ -237,7 +237,7 @@ function OceanRipple({
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`relative overflow-hidden ${className}`}
       onMouseEnter={createRipple}
@@ -245,23 +245,23 @@ function OceanRipple({
       onMouseMove={createRipple}
     >
       {children}
-      
+
       <AnimatePresence>
         {ripples.map((ripple) => {
           // Calculate scroll progress for dynamic colors
           const scrollY = window.scrollY || 0;
           const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
           const scrollProgress = Math.min(Math.max(scrollY / maxScroll, 0), 1);
-          
+
           // Transition from warm colors to blue colors based on scroll
           const r1 = Math.max(25, Math.min(231, 231 - scrollProgress * 206)); // Blue: 25, 25, 112
           const g1 = Math.max(25, Math.min(111, 111 - scrollProgress * 86));
           const b1 = Math.max(112, Math.min(255, 81 + scrollProgress * 174));
-          
+
           const r2 = Math.max(0, Math.min(201, 201 - scrollProgress * 201)); // Deep blue: 0, 0, 80
           const g2 = Math.max(0, Math.min(162, 162 - scrollProgress * 162));
           const b2 = Math.max(80, Math.min(255, 74 + scrollProgress * 181));
-          
+
           return (
             <div key={ripple.id}>
               {/* Main ocean ripple */}
@@ -282,29 +282,29 @@ function OceanRipple({
                   `,
                   border: `2px solid rgba(${r1}, ${g1}, ${b1}, 0.8)`,
                 }}
-              initial={{
-                width: 0,
-                height: 0,
-                x: 0,
-                y: 0,
-                opacity: 0,
-                scale: 0,
-              }}
-              animate={{
-                width: ripple.size,
-                height: ripple.size,
-                x: -ripple.size / 2,
-                y: -ripple.size / 2,
-                opacity: 0,
-                scale: 1,
-              }}
-              transition={{
-                duration: settings.duration,
-                delay: ripple.delay,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-            />
-            
+                initial={{
+                  width: 0,
+                  height: 0,
+                  x: 0,
+                  y: 0,
+                  opacity: 0,
+                  scale: 0,
+                }}
+                animate={{
+                  width: ripple.size,
+                  height: ripple.size,
+                  x: -ripple.size / 2,
+                  y: -ripple.size / 2,
+                  opacity: 0,
+                  scale: 1,
+                }}
+                transition={{
+                  duration: settings.duration,
+                  delay: ripple.delay,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+              />
+
               {/* Secondary wave ring */}
               <motion.div
                 className="absolute pointer-events-none rounded-full"
@@ -314,28 +314,28 @@ function OceanRipple({
                   border: '1px solid rgba(255, 255, 255, 0.6)',
                   background: `rgba(${r2}, ${g2}, ${b2}, 0.1)`,
                 }}
-              initial={{
-                width: 0,
-                height: 0,
-                x: 0,
-                y: 0,
-                opacity: 0.8,
-                scale: 0,
-              }}
-              animate={{
-                width: ripple.size * 0.7,
-                height: ripple.size * 0.7,
-                x: -(ripple.size * 0.7) / 2,
-                y: -(ripple.size * 0.7) / 2,
-                opacity: 0,
-                scale: 1,
-              }}
-              transition={{
-                duration: settings.duration * 0.8,
-                delay: ripple.delay + 0.1,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-            />
+                initial={{
+                  width: 0,
+                  height: 0,
+                  x: 0,
+                  y: 0,
+                  opacity: 0.8,
+                  scale: 0,
+                }}
+                animate={{
+                  width: ripple.size * 0.7,
+                  height: ripple.size * 0.7,
+                  x: -(ripple.size * 0.7) / 2,
+                  y: -(ripple.size * 0.7) / 2,
+                  opacity: 0,
+                  scale: 1,
+                }}
+                transition={{
+                  duration: settings.duration * 0.8,
+                  delay: ripple.delay + 0.1,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+              />
 
               {/* Inner sparkle effect */}
               <motion.div
@@ -349,28 +349,28 @@ function OceanRipple({
                     transparent 70%)`,
                   filter: 'blur(1px)',
                 }}
-              initial={{
-                width: 0,
-                height: 0,
-                x: 0,
-                y: 0,
-                opacity: 1,
-                scale: 0,
-              }}
-              animate={{
-                width: ripple.size * 0.3,
-                height: ripple.size * 0.3,
-                x: -(ripple.size * 0.3) / 2,
-                y: -(ripple.size * 0.3) / 2,
-                opacity: 0,
-                scale: 1,
-              }}
-              transition={{
-                duration: settings.duration * 0.5,
-                delay: ripple.delay,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-            />
+                initial={{
+                  width: 0,
+                  height: 0,
+                  x: 0,
+                  y: 0,
+                  opacity: 1,
+                  scale: 0,
+                }}
+                animate={{
+                  width: ripple.size * 0.3,
+                  height: ripple.size * 0.3,
+                  x: -(ripple.size * 0.3) / 2,
+                  y: -(ripple.size * 0.3) / 2,
+                  opacity: 0,
+                  scale: 1,
+                }}
+                transition={{
+                  duration: settings.duration * 0.5,
+                  delay: ripple.delay,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+              />
             </div>
           );
         })}

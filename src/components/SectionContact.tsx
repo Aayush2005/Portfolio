@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 export default function SectionContact() {
   // Contact is at the bottom so it's always in the deep blue section
@@ -143,42 +144,244 @@ export default function SectionContact() {
           </div>
 
           {/* Contact cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-auto max-w-6xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className={`${cardBg} rounded-2xl p-6 border shadow-lg`}
-            >
-              <h3 className={`font-display text-xl ${textColor} mb-3`}>Email</h3>
-              <p className={subtextColor}>harshithaaa@animal.dev</p>
-            </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mt-20">
+            <BulgingCard
+              delay={0.2}
+              textColor={textColor}
+              subtextColor={subtextColor}
+              cardBg={cardBg}
+              title="Email"
+              description="harshithaaa@animal.dev - Ready to discuss your next project and bring ideas to life."
+            />
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className={`${cardBg} rounded-2xl p-6 border shadow-lg`}
-            >
-              <h3 className={`font-display text-xl ${textColor} mb-3`}>Location</h3>
-              <p className={subtextColor}>Available exclusively in dev's DM</p>
-            </motion.div>
+            <BulgingCard
+              delay={0.4}
+              textColor={textColor}
+              subtextColor={subtextColor}
+              cardBg={cardBg}
+              title="Location"
+              description="Available exclusively in dev's DM - Remote collaboration worldwide with flexible timezone coverage."
+            />
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className={`${cardBg} rounded-2xl p-6 border shadow-lg`}
-            >
-              <h3 className={`font-display text-xl ${textColor} mb-3`}>Response Time</h3>
-              <p className={subtextColor}>I won't reply to you bruhh</p>
-            </motion.div>
+            <BulgingCard
+              delay={0.6}
+              textColor={textColor}
+              subtextColor={subtextColor}
+              cardBg={cardBg}
+              title="Response Time"
+              description="I won't reply to you bruhh - Just kidding! Usually respond within 24 hours during business days."
+            />
           </div>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+interface BulgingCardProps {
+  delay: number;
+  textColor: string;
+  subtextColor: string;
+  cardBg: string;
+  title: string;
+  description: string;
+}
+
+function BulgingCard({ delay, textColor, cardBg, title, description }: BulgingCardProps) {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePosition({ x, y });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setMousePosition({ x: 0, y: 0 });
+  };
+
+  // Calculate distance from mouse to center for more reactive bulge
+  const centerX = 150;
+  const centerY = 140;
+  const distance = isHovered
+    ? Math.sqrt(Math.pow(mousePosition.x - centerX, 2) + Math.pow(mousePosition.y - centerY, 2))
+    : 0;
+  const bulgeIntensity = Math.max(0, 150 - distance) / 150;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay, duration: 0.6 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`relative ${cardBg} rounded-2xl p-10 border shadow-lg transition-all duration-300 cursor-pointer min-h-[280px] flex items-center justify-center backdrop-blur-sm overflow-hidden`}
+      style={{
+        perspective: "1000px",
+        transform: isHovered ? `scale(${1 + bulgeIntensity * 0.08})` : 'scale(1)',
+      }}
+    >
+      {/* Enhanced localized bulging effect */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            className="absolute pointer-events-none z-20"
+            style={{
+              left: mousePosition.x - 100,
+              top: mousePosition.y - 100,
+              width: 200,
+              height: 200,
+            }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1 + bulgeIntensity * 0.5, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+          >
+            <div
+              className="w-full h-full rounded-full"
+              style={{
+                background: `radial-gradient(circle, 
+                  rgba(231, 111, 81, ${0.25 * bulgeIntensity}) 0%, 
+                  rgba(231, 111, 81, ${0.15 * bulgeIntensity}) 30%, 
+                  rgba(42, 157, 143, ${0.1 * bulgeIntensity}) 50%,
+                  transparent 70%)`,
+                transform: `translateZ(${40 * bulgeIntensity}px)`,
+                filter: `blur(${12 + bulgeIntensity * 8}px)`,
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Dynamic mesh distortion effect */}
+      <div
+        className="absolute inset-0 rounded-2xl overflow-hidden transition-all duration-150"
+        style={{
+          background: isHovered
+            ? `radial-gradient(circle ${120 + bulgeIntensity * 50}px at ${mousePosition.x}px ${mousePosition.y}px, 
+                rgba(231, 111, 81, ${0.15 * bulgeIntensity}) 0%, 
+                rgba(231, 111, 81, ${0.08 * bulgeIntensity}) 40%, 
+                transparent 70%)`
+            : 'transparent',
+        }}
+      />
+
+      {/* Main title - hidden on hover */}
+      <AnimatePresence>
+        {!isHovered && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="relative z-10 text-center"
+          >
+            <h3 className={`font-display text-4xl lg:text-5xl ${textColor} transition-all duration-300`}>
+              {title}
+            </h3>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Description overlay - appears on hover with bulging effect */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 rounded-2xl bg-gradient-to-br from-deepTeal/95 via-deepTeal/90 to-burntOrange/85 backdrop-blur-md flex items-center justify-center p-10 z-30"
+            style={{
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+            }}
+          >
+            {/* Enhanced localized bulging effect for hover text */}
+            <motion.div
+              className="absolute pointer-events-none z-40"
+              style={{
+                left: mousePosition.x - 120,
+                top: mousePosition.y - 120,
+                width: 240,
+                height: 240,
+              }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1 + bulgeIntensity * 0.6, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+            >
+              <div
+                className="w-full h-full rounded-full"
+                style={{
+                  background: `radial-gradient(circle, 
+                    rgba(255, 255, 255, ${0.4 * bulgeIntensity}) 0%, 
+                    rgba(255, 255, 255, ${0.25 * bulgeIntensity}) 25%, 
+                    rgba(231, 111, 81, ${0.15 * bulgeIntensity}) 50%,
+                    transparent 70%)`,
+                  transform: `translateZ(${50 * bulgeIntensity}px)`,
+                  filter: `blur(${10 + bulgeIntensity * 8}px)`,
+                }}
+              />
+            </motion.div>
+
+            {/* Additional surface distortion for hover text */}
+            <div
+              className="absolute inset-0 rounded-2xl overflow-hidden transition-all duration-150"
+              style={{
+                background: `radial-gradient(circle ${150 + bulgeIntensity * 80}px at ${mousePosition.x}px ${mousePosition.y}px, 
+                  rgba(255, 255, 255, ${0.2 * bulgeIntensity}) 0%, 
+                  rgba(255, 255, 255, ${0.1 * bulgeIntensity}) 30%, 
+                  rgba(231, 111, 81, ${0.08 * bulgeIntensity}) 50%,
+                  transparent 70%)`,
+              }}
+            />
+
+            <motion.p
+              initial={{ y: 20, opacity: 0 }}
+              animate={{
+                y: (mousePosition.y - centerY) * 0.08,
+                opacity: 1,
+                x: (mousePosition.x - centerX) * 0.08,
+                z: 50 * bulgeIntensity
+              }}
+              exit={{ y: 20, opacity: 0 }}
+              transition={{
+                delay: 0.1,
+                duration: 0.3,
+                x: { duration: 0.15 },
+                y: { duration: 0.15 },
+                z: { duration: 0.15 }
+              }}
+              className="text-white/95 text-lg lg:text-xl leading-relaxed text-center relative z-50"
+              style={{
+                textShadow: `0 0 ${20 * bulgeIntensity}px rgba(255, 255, 255, 0.5)`,
+              }}
+            >
+              {description}
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Enhanced shadow that follows the bulge */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl bg-black/10 blur-xl -z-10"
+        style={{
+          transform: isHovered
+            ? `translate3d(${(mousePosition.x - centerX) * 0.1}px, ${(mousePosition.y - centerY) * 0.1}px, -10px) scale(${1 + bulgeIntensity * 0.1})`
+            : 'translate3d(0px, 0px, -10px) scale(1)',
+        }}
+        transition={{ duration: 0.15 }}
+      />
+    </motion.div>
   );
 }

@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
     const [activeSection, setActiveSection] = useState('hero');
     const [scrolled, setScrolled] = useState(false);
     const [textWhite, setTextWhite] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -38,6 +39,7 @@ export default function Header() {
     }, []);
 
     const navigationItems = [
+        { name: 'Home', href: '#hero', id: 'hero' },
         { name: 'Work', href: '#featured', id: 'featured' },
         { name: 'About', href: '#about', id: 'about' },
         { name: 'Tech', href: '#techstack', id: 'techstack' },
@@ -46,10 +48,15 @@ export default function Header() {
 
     const scrollToSection = (href: string) => {
         const targetId = href.replace('#', '');
-        const element = document.getElementById(targetId);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+        if (targetId === 'hero') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
+        setMobileMenuOpen(false); // Close mobile menu after navigation
     };
 
     return (
@@ -66,7 +73,8 @@ export default function Header() {
             }}
         >
             <nav className="mx-auto px-8 md:px-16 lg:px-24 py-6 md:py-8">
-                <div className="flex items-center justify-center gap-8 md:gap-12 lg:gap-16" style={{ padding: '10px' }}>
+                {/* Desktop Navigation */}
+                <div className="hidden md:flex items-center justify-center gap-8 md:gap-12 lg:gap-16" style={{ padding: '10px' }}>
                     {navigationItems.map((item, index) => (
                         <motion.button
                             key={item.name}
@@ -113,6 +121,93 @@ export default function Header() {
                         <div className="absolute inset-0 bg-gradient-to-r from-tangerine to-gold transform translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></div>
                     </motion.a>
                 </div>
+
+                {/* Mobile Navigation */}
+                <div className="md:hidden flex items-center justify-between">
+                    {/* Logo/Brand */}
+                    <motion.button
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.7 }}
+                        onClick={() => scrollToSection('#hero')}
+                        className={`font-display text-xl font-bold ${textWhite ? 'text-white' : 'text-black'}`}
+                    >
+                        Portfolio
+                    </motion.button>
+
+                    {/* Mobile Menu Button */}
+                    <motion.button
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.7 }}
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className={`relative w-8 h-8 flex flex-col justify-center items-center ${textWhite ? 'text-white' : 'text-black'}`}
+                    >
+                        <motion.span
+                            animate={{
+                                rotate: mobileMenuOpen ? 45 : 0,
+                                y: mobileMenuOpen ? 0 : -4,
+                            }}
+                            className={`w-6 h-0.5 ${textWhite ? 'bg-white' : 'bg-black'} transition-all duration-300 origin-center`}
+                        />
+                        <motion.span
+                            animate={{
+                                opacity: mobileMenuOpen ? 0 : 1,
+                            }}
+                            className={`w-6 h-0.5 ${textWhite ? 'bg-white' : 'bg-black'} transition-all duration-300 mt-1`}
+                        />
+                        <motion.span
+                            animate={{
+                                rotate: mobileMenuOpen ? -45 : 0,
+                                y: mobileMenuOpen ? -2 : 4,
+                            }}
+                            className={`w-6 h-0.5 ${textWhite ? 'bg-white' : 'bg-black'} transition-all duration-300 origin-center mt-1`}
+                        />
+                    </motion.button>
+                </div>
+
+                {/* Mobile Menu Overlay */}
+                <AnimatePresence>
+                    {mobileMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                            className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg border-t border-white/20 md:hidden"
+                        >
+                            <div className="px-8 py-6 space-y-4">
+                                {navigationItems.map((item, index) => (
+                                    <motion.button
+                                        key={item.name}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.1 }}
+                                        onClick={() => scrollToSection(item.href)}
+                                        className={`block w-full text-left px-4 py-3 font-medium transition-all duration-300 text-lg rounded-lg ${activeSection === item.id
+                                            ? 'text-burntOrange font-semibold bg-burntOrange/10'
+                                            : 'text-black/80 hover:text-burntOrange hover:bg-burntOrange/5'
+                                            }`}
+                                    >
+                                        {item.name}
+                                    </motion.button>
+                                ))}
+
+                                {/* Mobile Resume Button */}
+                                <motion.a
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.3, delay: navigationItems.length * 0.1 }}
+                                    href="/resume.pdf"
+                                    target="_blank"
+                                    className="block w-full text-center px-6 py-3 bg-gradient-to-r from-burntOrange to-tangerine text-white font-medium rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-burntOrange/25 mt-4"
+                                >
+                                    Resume
+                                </motion.a>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </nav>
         </motion.header>
     );
