@@ -61,7 +61,6 @@ h1: 89px       // Hero text
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd awakening-grid
 
 # Install dependencies
 npm install
