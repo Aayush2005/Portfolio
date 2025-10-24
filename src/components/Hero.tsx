@@ -165,7 +165,7 @@ export default function Hero() {
               fontSize: `clamp(${TYPE_SCALE.h2}px, 8vw, ${TYPE_SCALE.h1}px)`,
             }}
           >
-            Hey, I am Groot
+            Hey, I am Aayush
           </div>
         )}
 
