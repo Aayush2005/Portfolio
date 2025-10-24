@@ -373,7 +373,7 @@ function FeaturedCard({ project, isHovered, onHoverStart, onHoverEnd }: Featured
             className="absolute inset-0 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-[#F7F3E8]/98 via-[#F0EBE0]/95 to-[#E8DCC6]/90 backdrop-blur-md z-30"
             style={{
               boxShadow: '0 20px 60px rgba(40, 120, 150, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-              padding : '10px'
+              padding: '10px'
             }}
           >
 

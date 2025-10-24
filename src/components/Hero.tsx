@@ -2,8 +2,104 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { TYPE_SCALE } from '@/lib/constants';
-import { TypewriterText } from './UIComponents';
+
 import OceanRipple from './EnhancedRipple';
+
+// CyclingTypewriter Component
+interface CyclingTypewriterProps {
+  texts: string[];
+  delay?: number;
+  speed?: number;
+  className?: string;
+  onComplete?: () => void;
+  loop?: boolean;
+  minCharsVisible?: number;
+}
+
+function CyclingTypewriter({
+  texts,
+  delay = 0,
+  speed = 80,
+  className = '',
+  onComplete,
+  loop = false,
+  minCharsVisible = 0
+}: CyclingTypewriterProps) {
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isErasing, setIsErasing] = useState(false);
+  const hasCalledComplete = useRef(false);
+
+  useEffect(() => {
+    const currentText = texts[currentTextIndex];
+    
+    if (!loop && hasCalledComplete.current) {
+      // If loop is disabled and we've already completed, show full text
+      setDisplayText(currentText);
+      setIsErasing(false);
+      return;
+    }
+
+    let timer: NodeJS.Timeout;
+
+    if (!isErasing) {
+      // Typing phase
+      if (displayText.length < currentText.length) {
+        timer = setTimeout(() => {
+          setDisplayText(currentText.slice(0, displayText.length + 1));
+        }, displayText.length === 0 ? delay : speed);
+      } else {
+        // Completed typing current text
+        if (!hasCalledComplete.current) {
+          hasCalledComplete.current = true;
+          onComplete?.();
+        }
+
+        if (loop) {
+          // Wait before starting to erase
+          timer = setTimeout(() => {
+            setIsErasing(true);
+          }, 2000);
+        }
+      }
+    } else {
+      // Erasing phase
+      if (displayText.length > minCharsVisible) {
+        timer = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, speed / 2);
+      } else {
+        // Move to next text and start typing again
+        timer = setTimeout(() => {
+          setCurrentTextIndex((prev) => (prev + 1) % texts.length);
+          setIsErasing(false);
+        }, 500);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayText, isErasing, currentTextIndex, delay, speed, loop, minCharsVisible, onComplete, texts]);
+
+  // Reset when loop changes from true to false
+  useEffect(() => {
+    const currentText = texts[currentTextIndex];
+    if (!loop && isErasing) {
+      setDisplayText(currentText);
+      setIsErasing(false);
+    }
+  }, [loop, isErasing, currentTextIndex, texts]);
+
+  const showCursor = !hasCalledComplete.current || loop;
+
+  return (
+    <span className={className}>
+      {displayText}
+      {showCursor && (
+        <span className="animate-pulse text-burntOrange">|</span>
+      )}
+    </span>
+  );
+}
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -36,13 +132,14 @@ export default function Hero() {
       { threshold: 0.1 }
     );
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    const currentContainer = containerRef.current;
+    if (currentContainer) {
+      observer.observe(currentContainer);
     }
 
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (currentContainer) {
+        observer.unobserve(currentContainer);
       }
     };
   }, []);
@@ -80,13 +177,13 @@ export default function Hero() {
           }}
         >
           {showTypewriter && (
-            <TypewriterText
-              text="I am just a Human"
+            <CyclingTypewriter
+              texts={["I am a Developer", "I am an Innovator", "I am a Creator", "I am a Problem Solver"]}
               delay={0}
-              speed={30}
+              speed={50}
               onComplete={handleTypewriterComplete}
               loop={isInViewport}
-              minCharsVisible={2}
+              minCharsVisible={7}
             />
           )}
         </div>
