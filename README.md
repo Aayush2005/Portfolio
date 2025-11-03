@@ -353,6 +353,4 @@ MIT License - feel free to use this as inspiration for your own portfolio!
 
 *"Engineering light through code. Creating experiences that blur the line between digital and physical reality."* — Aayush
 
-**Contact**: [Add your contact information]  
-**Portfolio**: [Add your live portfolio URL]  
-**GitHub**: [Add your GitHub profile]
+**Contact**: aayushkr646@gmail.com  
