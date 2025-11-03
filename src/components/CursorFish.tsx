@@ -31,10 +31,19 @@ function Fish({ delay = 0, size = 'medium', color = 'blue', followSpeed = 0.05 }
       setFishPos(prev => {
         const dx = mousePos.x - prev.x;
         const dy = mousePos.y - prev.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
         // Calculate rotation angle to point towards cursor
         const angle = Math.atan2(dy, dx) * (180 / Math.PI);
         setRotation(angle);
+
+        // Minimum distance to keep fish outside cursor area (adjust this value as needed)
+        const minDistance = size === 'small' ? 60 : 80;
+
+        // If fish is too close to cursor, don't move closer
+        if (distance < minDistance) {
+          return prev;
+        }
 
         return {
           x: prev.x + dx * followSpeed,
@@ -47,7 +56,7 @@ function Fish({ delay = 0, size = 'medium', color = 'blue', followSpeed = 0.05 }
 
     animationFrameId = requestAnimationFrame(followMouse);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [mousePos, followSpeed]);
+  }, [mousePos, followSpeed, size]);
 
   const fishSize = size === 'small' ? 'w-16 h-12' : 'w-20 h-14';
   const tailSize = size === 'small' ? 'w-8 h-8' : 'w-10 h-10';
@@ -82,36 +91,6 @@ function Fish({ delay = 0, size = 'medium', color = 'blue', followSpeed = 0.05 }
       }}
     >
       <div className="relative">
-        {/* Fish body - more fish-like shape */}
-        <div className={`${fishSize} bg-gradient-to-r ${fishColors[color]} rounded-full relative`}
-          style={{ borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%' }}>
-
-          {/* Fish eye */}
-          <div className={`absolute ${eyeSize} bg-white rounded-full right-3 top-2`}>
-            <div className={`absolute ${size === 'small' ? 'w-1 h-1' : 'w-1.5 h-1.5'} bg-gray-800 rounded-full top-0.5 right-0.5`}></div>
-          </div>
-
-          {/* Top fin */}
-          <div className={`absolute ${size === 'small' ? 'w-4 h-6' : 'w-5 h-7'} ${tailColors[color]} right-6 -top-2 rounded-tl-full rounded-tr-full`}
-            style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)' }}>
-          </div>
-
-          {/* Side fin */}
-          <motion.div
-            className={`absolute ${finSize} ${tailColors[color]} rounded-full right-8 bottom-1`}
-            style={{ clipPath: 'ellipse(70% 50% at 30% 50%)' }}
-            animate={{
-              rotate: [0, -15, 0],
-              scaleY: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 0.6,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </div>
-
         {/* Fish tail - behind body */}
         <div className={`absolute ${tailSize} ${tailColors[color]} -left-4 top-3`}
           style={{ clipPath: 'polygon(100% 50%, 0% 0%, 0% 100%)' }}>
@@ -123,6 +102,45 @@ function Fish({ delay = 0, size = 'medium', color = 'blue', followSpeed = 0.05 }
             }}
             transition={{
               duration: 0.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+
+        {/* Fish body - more fish-like shape */}
+        <div className={`${fishSize} bg-gradient-to-r ${fishColors[color]} relative`}
+          style={{
+            borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
+            boxShadow: `0 0 10px rgba(${color === 'blue' ? '34, 211, 238' : '251, 146, 60'}, 0.3)`
+          }}>
+
+          {/* Fish eye */}
+          <div className={`absolute ${eyeSize} bg-white rounded-full right-3 top-2 shadow-sm`}>
+            <div className={`absolute ${size === 'small' ? 'w-1 h-1' : 'w-1.5 h-1.5'} bg-gray-800 rounded-full top-0.5 right-0.5`}></div>
+          </div>
+
+          {/* Top fin */}
+          <div className={`absolute ${size === 'small' ? 'w-4 h-6' : 'w-5 h-7'} ${tailColors[color]} right-6 -top-2`}
+            style={{
+              clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+              filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
+            }}>
+          </div>
+
+          {/* Side fin */}
+          <motion.div
+            className={`absolute ${finSize} ${tailColors[color]} right-8 bottom-1`}
+            style={{
+              clipPath: 'ellipse(70% 50% at 30% 50%)',
+              filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
+            }}
+            animate={{
+              rotate: [0, -15, 0],
+              scaleY: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 0.6,
               repeat: Infinity,
               ease: "easeInOut"
             }}

@@ -28,58 +28,63 @@ export default function SectionFeatured() {
   const items = [
     {
       id: 'f1',
-      title: 'Fractal Atlas',
+      title: 'Agentic Insurance Voice Agent',
       year: '2024',
-      summary: 'Generative visuals for interactive data storytelling with WebGL.',
-      description: 'A comprehensive platform for exploring fractal mathematics through interactive visualizations. Built with cutting-edge WebGL shaders and real-time rendering that brings mathematical beauty to life.',
-      tech: ['WebGL', 'Three.js', 'React', 'GLSL', 'TypeScript'],
-      image: '/placeholders/fractal-atlas.svg',
-      secondaryImage: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=600&fit=crop&auto=format&q=80',
-      icon: '🌀'
+      summary: 'Team project: A fully functional AI voice agent with speech-to-text, text-to-speech, and intelligent query handling.',
+      description: 'Team development integrating STT (Faster Whisper) and TTS (ElevenLabs) for seamless voice interaction and natural conversation flow. Developed 31 intent classification models with custom utterances, boosting accuracy by 18%.',
+      tech: ['Mistral 7B', 'RAG', 'FAISS', 'Faster Whisper', 'ElevenLabs'],
+      image: '/placeholders/voice-agent.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1589254065878-42c9da997008?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '🎤',
+      githubUrl: 'https://github.com/Aayush2005/Insurance-Agent'
     },
     {
       id: 'f2',
-      title: 'Pulse UI Kit',
+      title: 'AI-Based Music Recommendation System',
       year: '2024',
-      summary: 'A micro-interaction library for high-performance UI motion.',
-      description: 'A comprehensive animation library designed for modern web applications. Features over 100 pre-built components with customizable motion patterns that enhance user experience.',
-      tech: ['Framer Motion', 'TypeScript', 'Storybook', 'CSS', 'React'],
-      image: '/placeholders/pulse-ui.svg',
-      secondaryImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop&auto=format&q=80',
-      icon: '⚡'
+      summary: 'An end-to-end content-based music recommender leveraging audio embeddings and clustering techniques.',
+      description: 'Built recommendation engine using YAMNet & Librosa embeddings, improving similarity accuracy by 32%. Clustered 10K+ songs with HDBSCAN to auto-discover subgenres and deliver personalized suggestions.',
+      tech: ['FastAPI', 'Librosa', 'HDBSCAN', 'YAMNet', 'JioSaavn API'],
+      image: '/placeholders/music-rec.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '🎵',
+      githubUrl: 'https://github.com/Aayush2005/Music-recommendation-system'
     },
     {
       id: 'f3',
-      title: 'Lens Commerce',
-      year: '2023',
-      summary: 'AR-assisted product previews with custom refraction shaders.',
-      description: 'An augmented reality platform that allows customers to visualize products in their real environment before purchasing. Features advanced lighting and material simulation.',
-      tech: ['AR.js', 'WebXR', 'GLSL', 'Machine Learning', 'JavaScript'],
-      image: '/placeholders/lens-commerce.svg',
-      secondaryImage: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&h=600&fit=crop&auto=format&q=80',
-      icon: '👁️'
+      title: 'DeFi AI Assistant',
+      year: '2024',
+      summary: 'Team project: A modular AI assistant for decentralized finance queries with intelligent routing and caching.',
+      description: 'Team development of modular FastAPI backend for DeFi queries using RAG and vector DB thresholds. Added Redis caching with 300s TTL to persist partial action details and reduce latency by 40%.',
+      tech: ['LangChain', 'Pinecone', 'Redis', 'FastAPI', 'RAG'],
+      image: '/placeholders/defi-ai.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '💰',
+      githubUrl: 'https://github.com/Aayush2005/defi-agent'
     },
     {
       id: 'f4',
-      title: 'Neural Canvas',
+      title: 'Euro Hotel - Luxury Booking System',
       year: '2024',
-      summary: 'AI-powered creative tools for digital artists.',
-      description: 'A suite of AI-powered tools that assist digital artists in creating stunning artwork. Features neural style transfer, intelligent color palettes, and composition suggestions.',
-      tech: ['TensorFlow.js', 'Canvas API', 'Python', 'React', 'WebGL'],
-      image: '/placeholders/neural-canvas.svg',
-      secondaryImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop&auto=format&q=80',
-      icon: '🎨'
+      summary: 'Freelance project: A modern, full-stack hotel booking platform featuring real-time availability, secure payments, and premium user experience.',
+      description: 'Freelance development of comprehensive booking management system with FastAPI backend and Next.js frontend. Features real-time booking with 15-minute hold system, Razorpay payment integration, and complete admin dashboard.',
+      tech: ['FastAPI', 'MongoDB', 'Next.js 15', 'Razorpay', 'JWT Auth'],
+      image: '/placeholders/euro-hotel.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '🏨',
+      githubUrl: 'https://eurohotel.in'
     },
     {
       id: 'f5',
-      title: 'Quantum Simulator',
-      year: '2023',
-      summary: 'Interactive quantum computing visualization platform.',
-      description: 'An educational platform that visualizes quantum computing concepts through interactive simulations. Helps students and researchers understand complex quantum phenomena.',
-      tech: ['D3.js', 'WebAssembly', 'Rust', 'Physics Engine', 'TypeScript'],
-      image: '/placeholders/quantum-simulator.svg',
-      secondaryImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop&auto=format&q=80',
-      icon: '⚛️'
+      title: 'Women Safety Application',
+      year: '2024',
+      summary: 'Team project: A comprehensive safety application designed to enhance women\'s security with emergency features and real-time assistance.',
+      description: 'Team development of mobile application focused on women\'s safety featuring emergency SOS, location tracking, trusted contacts system, and safety resources. Built with modern mobile development practices for reliable emergency response.',
+      tech: ['React Native', 'Firebase', 'GPS Tracking', 'Push Notifications', 'Emergency APIs'],
+      image: '/placeholders/women-safety.svg',
+      secondaryImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&auto=format&q=80',
+      icon: '🛡️',
+      githubUrl: 'https://github.com/Aayush2005/Women-Safety'
     },
   ];
 
@@ -310,6 +315,7 @@ interface FeaturedCardProps {
     image: string;
     secondaryImage: string;
     icon: string;
+    githubUrl?: string;
   };
   isHovered: boolean;
   onHoverStart: () => void;
@@ -452,10 +458,22 @@ function FeaturedCard({ project, isHovered, onHoverStart, onHoverEnd }: Featured
                 </div>
 
                 {/* View Project button at bottom */}
-                <button className="text-[#213740] font-medium hover:text-[#F9C7BD] transition-colors duration-300 flex items-center gap-2 group self-start bg-[#F0EBE0]/80 px-4 py-2 rounded-lg backdrop-blur-sm border border-[#F0EBE0] mt-6 hover:bg-[#F9C7BD]/20 hover:border-[#F9C7BD]/40">
-                  View Project
-                  <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-                </button>
+                {project.githubUrl ? (
+                  <a 
+                    href={project.githubUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#213740] font-medium hover:text-[#F9C7BD] transition-colors duration-300 flex items-center gap-2 group self-start bg-[#F0EBE0]/80 px-4 py-2 rounded-lg backdrop-blur-sm border border-[#F0EBE0] mt-6 hover:bg-[#F9C7BD]/20 hover:border-[#F9C7BD]/40"
+                  >
+                    {project.githubUrl.includes('github.com') ? 'View on GitHub' : 'Visit Website'}
+                    <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </a>
+                ) : (
+                  <button className="text-[#213740] font-medium hover:text-[#F9C7BD] transition-colors duration-300 flex items-center gap-2 group self-start bg-[#F0EBE0]/80 px-4 py-2 rounded-lg backdrop-blur-sm border border-[#F0EBE0] mt-6 hover:bg-[#F9C7BD]/20 hover:border-[#F9C7BD]/40">
+                    View Project
+                    <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </button>
+                )}
               </div>
 
               {/* Secondary image stuck to right edge center */}

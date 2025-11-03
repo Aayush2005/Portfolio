@@ -76,26 +76,17 @@ function OceanRipple({
     }
   }, [settings, global]);
 
-  // Global event handling
+  // Global event handling - only on click for performance
   useEffect(() => {
     if (!global) return;
-
-    const handleGlobalMouseMove = (e: MouseEvent) => {
-      // Only create ripples occasionally during mouse movement (10% chance)
-      if (Math.random() < 0.1) {
-        createRipple(e, e.clientX, e.clientY);
-      }
-    };
 
     const handleGlobalClick = (e: MouseEvent) => {
       createRipple(e, e.clientX, e.clientY);
     };
 
-    document.addEventListener('mousemove', handleGlobalMouseMove);
     document.addEventListener('click', handleGlobalClick);
 
     return () => {
-      document.removeEventListener('mousemove', handleGlobalMouseMove);
       document.removeEventListener('click', handleGlobalClick);
     };
   }, [createRipple, global]);
@@ -240,9 +231,7 @@ function OceanRipple({
     <div
       ref={containerRef}
       className={`relative overflow-hidden ${className}`}
-      onMouseEnter={createRipple}
       onClick={createRipple}
-      onMouseMove={createRipple}
     >
       {children}
 

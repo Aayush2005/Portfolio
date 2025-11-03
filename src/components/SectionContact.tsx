@@ -133,13 +133,13 @@ export default function SectionContact() {
             <motion.a
               href="/resume.pdf"
               target="_blank"
-              className="group relative bg-white/20 border-2 border-white text-white font-medium text-lg rounded-2xl hover:bg-white hover:text-charcoal transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center"
+              className="group relative bg-white/20 border-2 border-white font-medium text-lg rounded-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center overflow-hidden"
               style={{ padding: '12px 28px' }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="relative z-10">Download Resume</span>
-              <div className="absolute inset-0 bg-white text-black transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left rounded-2xl"></div>
+              <span className="relative z-20 text-white group-hover:text-charcoal transition-colors duration-100">Download Resume</span>
+              <div className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-left rounded-2xl z-10"></div>
             </motion.a>
           </div>
 
